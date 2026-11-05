@@ -1,4 +1,4 @@
-# SENTINELA – Sprint 1
+# SENTINELA 
 
 Sistema de monitoramento de segurança física de uma instalação nuclear.
 
@@ -14,4 +14,3 @@ Sistema de monitoramento de segurança física de uma instalação nuclear.
 `mvn test`
 
 ## Respostas de reflexão
-(preenchidas ao longo da sprint)

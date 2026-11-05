@@ -7,16 +7,26 @@ public class Main {
         ZonaRestrita casaDoReator = new ZonaRestrita();
         casaDoReator.identificador = "ZNR-01";
         casaDoReator.descricao = "Casa do Reator";
-        casaDoReator.nivelRadiacaoAtual = 0.2;
+        casaDoReator.limiteRadiacao = 2.5;
 
         ZonaRestrita patioCombustivelIrradiado = new ZonaRestrita();
         patioCombustivelIrradiado.identificador = "ZNR-02";
         patioCombustivelIrradiado.descricao = "Pátio de Armazenamento de Combustível Irradiado";
-        patioCombustivelIrradiado.nivelRadiacaoAtual = 0.3;
+        patioCombustivelIrradiado.limiteRadiacao = 2.5;
 
-        System.out.println(casaDoReator.identificador + " - " + casaDoReator.descricao
-                + " | Radiação: " + casaDoReator.nivelRadiacaoAtual + " µSv/h");
-        System.out.println(patioCombustivelIrradiado.identificador + " - " + patioCombustivelIrradiado.descricao
-                + " | Radiação: " + patioCombustivelIrradiado.nivelRadiacaoAtual + " µSv/h");
+        casaDoReator.registrarLeituraRadiacao(0.2);
+        patioCombustivelIrradiado.registrarLeituraRadiacao(0.3);
+        imprimirSituacao(casaDoReator);
+        imprimirSituacao(patioCombustivelIrradiado);
+
+        System.out.println("--- Nova leitura na Casa do Reator ---");
+        casaDoReator.registrarLeituraRadiacao(4.7);
+        imprimirSituacao(casaDoReator);
+    }
+
+    private static void imprimirSituacao(ZonaRestrita zona) {
+        System.out.println(zona.identificador + " - " + zona.descricao
+                + " | Radiação: " + zona.nivelRadiacaoAtual + " µSv/h"
+                + " | Risco: " + zona.classificarRisco());
     }
 }

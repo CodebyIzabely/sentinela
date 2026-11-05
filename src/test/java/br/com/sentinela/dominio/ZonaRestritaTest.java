@@ -7,23 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ZonaRestritaTest {
 
-    private ZonaRestrita criarZonaComLimite(double limite) {
-        ZonaRestrita zona = new ZonaRestrita();
-        zona.setIdentificador("ZNR-01");
-        zona.setDescricao("Casa do Reator");
-        zona.setLimiteRadiacao(limite);
-        return zona;
+    private ZonaRestrita criarCasaDoReator() {
+        return new ZonaRestrita("ZNR-01", "Casa do Reator", 2.5);
     }
 
     @Test
     void naoDeveSerNulaAposInstanciacao() {
-        ZonaRestrita zona = new ZonaRestrita();
+        ZonaRestrita zona = criarCasaDoReator();
         assertNotNull(zona);
     }
 
     @Test
     void deveMudarDeNormalParaCriticoAoReceberLeituraAlta() {
-        ZonaRestrita zona = criarZonaComLimite(2.5);
+        ZonaRestrita zona = criarCasaDoReator();
         zona.registrarLeituraRadiacao(0.2);
         assertEquals("NORMAL", zona.classificarRisco());
 
@@ -35,7 +31,7 @@ class ZonaRestritaTest {
 
     @Test
     void deveClassificarComoAtencaoNaFaixaIntermediaria() {
-        ZonaRestrita zona = criarZonaComLimite(2.5);
+        ZonaRestrita zona = criarCasaDoReator();
 
         zona.registrarLeituraRadiacao(1.5);
 
@@ -44,7 +40,7 @@ class ZonaRestritaTest {
 
     @Test
     void deveRejeitarRadiacaoNegativaEManterUltimoValor() {
-        ZonaRestrita zona = criarZonaComLimite(2.5);
+        ZonaRestrita zona = criarCasaDoReator();
         zona.registrarLeituraRadiacao(0.2);
 
         assertThrows(IllegalArgumentException.class, () -> zona.registrarLeituraRadiacao(-5));
@@ -54,11 +50,35 @@ class ZonaRestritaTest {
 
     @Test
     void deveRejeitarLeituraAcimaDeUmMilhaoComoFalhaDeSensor() {
-        ZonaRestrita zona = criarZonaComLimite(2.5);
+        ZonaRestrita zona = criarCasaDoReator();
         zona.registrarLeituraRadiacao(0.2);
 
         assertThrows(IllegalArgumentException.class, () -> zona.registrarLeituraRadiacao(1_000_001));
 
         assertEquals(0.2, zona.getNivelRadiacaoAtual());
+    }
+
+    @Test
+    void deveRejeitarIdentificadorVazio() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new ZonaRestrita("", "Casa do Reator", 2.5));
+    }
+
+    @Test
+    void deveRejeitarDescricaoVazia() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new ZonaRestrita("ZNR-01", "", 2.5));
+    }
+
+    @Test
+    void deveRejeitarLimiteZeroOuNegativo() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new ZonaRestrita("ZNR-01", "Casa do Reator", 0));
+    }
+
+    @Test
+    void deveNascerComRadiacaoZerada() {
+        ZonaRestrita zona = criarCasaDoReator();
+        assertEquals(0.0, zona.getNivelRadiacaoAtual());
     }
 }

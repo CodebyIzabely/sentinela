@@ -36,3 +36,10 @@ Seria possível zerar a radiação de uma zona em estado crítico pouco antes do
 escondendo um vazamento, ou gravar valores negativos ou absurdos que distorcem a análise.
 Com o atributo privado, toda alteração passa obrigatoriamente por registrarLeituraRadiacao,
 que valida a leitura antes de aceitar.
+
+### Construtores
+**Por que o desaparecimento do construtor padrão, assim que você define um customizado, protege o cadastro de zonas da instalação?**
+Quando criamos o construtor ZonaRestrita(identificador, descricao, limiteRadiacao), o Java deixa de
+oferecer o new ZonaRestrita() vazio. Assim, é impossível criar uma "zona fantasma" sem identificação
+ou sem limite de radiação: o próprio compilador bloqueia o código antes de o sistema rodar.
+Toda zona já nasce válida, e as validações do construtor impedem dados vazios ou absurdos.

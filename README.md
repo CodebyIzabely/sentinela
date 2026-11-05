@@ -5,6 +5,9 @@ Sistema de monitoramento de segurança física de uma instalação nuclear.
 ## Integrantes
 - Izabely Dos santos
 - Ana Flavia Chaves 
+- Ana Clara Alcantara
+- Natalia Alcantara
+- Raissa Marinho
 
 ## Como rodar
 - Pela IDE: executar `br.com.sentinela.Main`
@@ -25,3 +28,11 @@ Podemos criar quantas zonas quisermos com a mesma classe, cada uma com seus dado
 Porque quem conhece o próprio nível e o próprio limite é a zona. Com a regra em um só lugar,
 qualquer parte do sistema (o main, a central, os testes) usa a mesma classificação.
 Se a faixa de ATENCAO mudar, alteramos um único método, sem caçar ifs espalhados pelo código.
+
+### Encapsulamento
+**Se o nivelRadiacaoAtual fosse público, que tipo de fraude um programador descuidado (ou malicioso) poderia causar no relatório da central de monitoramento?**
+Qualquer parte do código poderia escrever direto no atributo, sem passar pela validação.
+Seria possível zerar a radiação de uma zona em estado crítico pouco antes do relatório,
+escondendo um vazamento, ou gravar valores negativos ou absurdos que distorcem a análise.
+Com o atributo privado, toda alteração passa obrigatoriamente por registrarLeituraRadiacao,
+que valida a leitura antes de aceitar.

@@ -43,3 +43,14 @@ Quando criamos o construtor ZonaRestrita(identificador, descricao, limiteRadiaca
 oferecer o new ZonaRestrita() vazio. Assim, é impossível criar uma "zona fantasma" sem identificação
 ou sem limite de radiação: o próprio compilador bloqueia o código antes de o sistema rodar.
 Toda zona já nasce válida, e as validações do construtor impedem dados vazios ou absurdos.
+
+### Associação
+**Se o alerta guardasse apenas a String com o código do sensor, o que a central perderia na hora de escalonar o incidente e precisar consultar a localização e a zona afetada depois?**
+Com apenas o texto "SRD-01", o alerta não saberia onde o sensor está, se ele continua em operação
+nem qual zona ele monitora. A central teria que procurar o sensor de novo em alguma lista, e se
+o código estivesse errado ou duplicado, o incidente ficaria sem informação. Guardando o próprio objeto
+Sensor e o próprio objeto ZonaRestrita, o alerta já carrega a localização, o status do sensor e o
+nível de radiação atual da zona, prontos para quem for atender a ocorrência.
+
+**Observação sobre a regra dos 3 parâmetros:** o construtor de AlertaSeguranca recebe 4 parâmetros
+(sensor, zona, severidade e mensagem) porque um alerta sem qualquer um deles seria inválido.

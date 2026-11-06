@@ -54,3 +54,36 @@ nível de radiação atual da zona, prontos para quem for atender a ocorrência.
 
 **Observação sobre a regra dos 3 parâmetros:** o construtor de AlertaSeguranca recebe 4 parâmetros
 (sensor, zona, severidade e mensagem) porque um alerta sem qualquer um deles seria inválido.
+
+### Herança
+**Se a mãe tem codigoIdentificador como private, por que a filha é obrigada a passar esse dado pelo super() em vez de simplesmente fazer this.codigoIdentificador = "..."? Que princípio das aulas passadas está sendo protegido?**
+Um atributo private só é visível dentro da própria classe, mesmo para as filhas. A única forma de
+a filha dar valor a ele é chamando o construtor da mãe com super(), que valida o código antes de
+aceitar. Assim, o encapsulamento e as regras de nascimento do construtor continuam protegidos:
+nenhuma filha consegue criar um dispositivo sem código ou com código vazio.
+
+**Herança Gula:** DronePatrulha É UM DispositivoMonitoramento, mas não é um SensorRadiacao.
+O drone TEM UMA CameraVisaoComputacional (associação), e não herda de um sensor.
+
+## Saída do console
+```
+=== CENÁRIO 1: ROTINA NORMAL ===
+Leitura SRD-01 | ZNR-01 - Casa do Reator | 0,20 µSv/h | Risco: NORMAL
+Leitura SRD-02 | ZNR-02 - Pátio de Armazenamento de Combustível Irradiado | 0,30 µSv/h | Risco: NORMAL
+Perímetro Cerca - setor Norte: íntegro
+Drone DRN-01 em patrulha (Perímetro Norte -> Pátio -> Casa do Reator): NENHUMA_DETECCAO | bateria 85%
+--- Análise da central ---
+Nenhum alerta: instalação em rotina normal
+
+=== CENÁRIO 2: PICO DE RADIAÇÃO ===
+Leitura SRD-01 | ZNR-01 - Casa do Reator | 4,70 µSv/h | Risco: CRITICO
+--- Análise da central ---
+[CRITICO] Radiação de 4.7 µSv/h (limite 2.5 µSv/h) | Sensor: SRD-01 (Teto da Casa do Reator) | Zona: ZNR-01 - Casa do Reator
+
+=== CENÁRIO 3: ACESSO INDEVIDO ===
+Perímetro Cerca - setor Norte: VIOLADO
+--- Análise da central ---
+[ATENCAO] Violação da cerca no setor Norte: drone enviado para verificação | Sensor: SPM-01 (Cerca - setor Norte) | Zona: ZNR-02 - Pátio de Armazenamento de Combustível Irradiado
+[CRITICO] Câmera do drone confirmou veículo não identificado | Sensor: DRN-01 (Base de drones) | Zona: ZNR-02 - Pátio de Armazenamento de Combustível Irradiado
+Drone DRN-01 na zona ZNR-02 | bateria restante 70%
+```

@@ -3,11 +3,11 @@
 Sistema de monitoramento de segurança física de uma instalação nuclear.
 
 ## Integrantes
-- Izabely Dos santos
-- Ana Flavia Chaves 
-- Ana Clara Alcantara
-- Natalia Alcantara
-- Raissa Marinho
+- Izabely Dos santos - 567088
+- Ana Flavia Chaves - 566603
+- Ana Clara Alcantara - 568463
+- Natalia Alcantara - 568570
+- Raissa Marinho - 568301
 
 ## Como rodar
 - Pela IDE: executar `br.com.sentinela.Main`
